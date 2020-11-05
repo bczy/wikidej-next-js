@@ -4,10 +4,12 @@ import Image from 'next/image';
 function Skill({ title, content, image }) {
 	return (
 		<div className="container">
-			<div>
-				<h3>{title}</h3>
-				<div style={{ display: 'flex' }}>
+			<div style={{ margin: '2em', display: 'flex' }}>
+				<div>
+					<h3>{title}</h3>
 					<p>{content}</p>
+				</div>
+				<div>
 					<Image width={500} height={500} src={`/images/${image}`} />
 				</div>
 			</div>

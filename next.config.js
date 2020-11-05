@@ -1,7 +1,7 @@
-const siteData = require('./site-data.json');
+const data = require('./data/skills.json');
 
 const skillPages = [];
-siteData.pages.forEach((page) => {
+data.skills.forEach((page) => {
 	skillPages[`/skills/${page.slug}`] = { page: `/skills/${page.slug}` };
 });
 
