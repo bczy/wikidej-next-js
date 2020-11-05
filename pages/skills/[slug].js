@@ -1,12 +1,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-import * as siteData from '../../site-data.json';
-import styles from '../../styles/Home.module.css';
-
 function Skill({ title, content, image }) {
 	return (
-		<div className={styles.container}>
+		<div className="container">
 			<div>
 				<h3>{title}</h3>
 				<div style={{ display: 'flex' }}>
@@ -27,7 +24,13 @@ function Skill({ title, content, image }) {
 }
 
 export async function getStaticPaths() {
-	const paths = siteData.pages.map((page) => {
+	const skills = await fetch('http://localhost:3000/api/skills');
+	// By returning { props: posts }, the Blog component
+	// will receive `posts` as a prop at build time
+
+	const skillsJSON = await skills.json();
+
+	const paths = skillsJSON.map((page) => {
 		return { params: { slug: page.slug } };
 	});
 
@@ -42,8 +45,8 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
 	// Call an external API endpoint to get posts.
 	// You can use any data fetching library
-	const page = siteData.pages.find((page) => page.slug === params.slug);
-	const { title, content, image } = page;
+	const skill = await fetch(`http://localhost:3000/api/skills/${params.slug}`);
+	const { title, content, image } = await skill.json();
 	// By returning { props: posts }, the Blog component
 	// will receive `posts` as a prop at build time
 	return {

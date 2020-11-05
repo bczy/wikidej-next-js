@@ -1,21 +1,19 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import styles from '../../styles/Home.module.css';
 
-import * as siteData from '../../site-data.json';
 import Footer from '../../components/Footer';
 
-export default function FactList() {
+export default function Skills({ skills }) {
 	return (
 		<div className="container">
 			<p className="description">Some Néo-Soft skills</p>
 			<div className="grid">
-				{siteData.pages.map((page, i) => (
-					<Link key={i} href={`/skills/${page.slug}`}>
+				{skills.map((skill, i) => (
+					<Link key={i} href={`/skills/${skill.slug}`}>
 						<a className="card">
-							<h3>{page.title}</h3>
-							<p>{`${page.content.substring(0, 35)}...`}</p>
-							<Image src={`/images/${page.image}`} width={125} height={125} />
+							<h3>{skill.title}</h3>
+							<p>{`${skill.content.substring(0, 35)}...`}</p>
+							<Image src={`/images/${skill.image}`} width={125} height={125} />
 						</a>
 					</Link>
 				))}
@@ -77,4 +75,22 @@ export default function FactList() {
 			</style>
 		</div>
 	);
+}
+
+// This function gets called at build time on server-side.
+// It won't be called on client-side, so you can even do
+// direct database queries. See the "Technical details" section.
+export async function getStaticProps() {
+	// Call an external API endpoint to get posts.
+	// You can use any data fetching library
+	const skills = await fetch('http://localhost:3000/api/skills');
+	// By returning { props: posts }, the Blog component
+	// will receive `posts` as a prop at build time
+
+	const skillsJSON = await skills.json();
+	return {
+		props: {
+			skills: skillsJSON,
+		},
+	};
 }
