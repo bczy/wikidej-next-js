@@ -23,3 +23,20 @@ a {
 	justify-content: center;
 	align-items: center;
 }
+
+button {
+	border: 1px solid #44f;
+	border-radius: 0.5em;
+	margin: 1em;
+	padding: 1em;
+	background: none;
+	color: #44f;
+	transition-property: all;
+	transition-duration: 0.5s;
+}
+
+button:hover {
+	border: 1px solid #444;
+	color: #444;
+	box-shadow: 2px 2px 2px blue;
+}
