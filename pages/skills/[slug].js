@@ -1,24 +1,32 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-function Skill({ title, content, image }) {
+function Skill({ title, content, image, categories }) {
 	return (
 		<div className="container">
-			<div style={{ margin: '2em', display: 'flex' }}>
+			<div style={{ width: '50%', margin: '2em', display: 'flex' }}>
 				<div>
 					<h3>{title}</h3>
 					<p>{content}</p>
+					<div style={{ color: '#33F' }}>
+						[
+						{categories.map(
+							(category, i) =>
+								`${category}${i < categories.length - 1 ? ' - ' : ''}`
+						)}
+						]
+					</div>
 				</div>
 				<div>
-					<Image width={500} height={500} src={`/images/${image}`} />
+					<Image width={250} height={250} src={`/images/${image}`} />
 				</div>
 			</div>
 			<div style={{ display: 'flex' }}>
 				<Link href="/">
 					<button>Homepage</button>
 				</Link>
-				<Link href="/fact-list">
-					<button>Fact List</button>
+				<Link href="/skills">
+					<button>Skill List</button>
 				</Link>
 			</div>
 		</div>
@@ -48,7 +56,8 @@ export async function getStaticProps({ params }) {
 	// Call an external API endpoint to get posts.
 	// You can use any data fetching library
 	const skill = await fetch(`http://localhost:3000/api/skills/${params.slug}`);
-	const { title, content, image } = await skill.json();
+	const { title, content, image, categories } = await skill.json();
+	console.log(skill);
 	// By returning { props: posts }, the Blog component
 	// will receive `posts` as a prop at build time
 	return {
@@ -56,6 +65,7 @@ export async function getStaticProps({ params }) {
 			title,
 			content,
 			image,
+			categories,
 		},
 	};
 }
