@@ -40,7 +40,6 @@ export async function getStaticPaths() {
 	});
 	return {
 		paths,
-		fallback: true,
 	};
 }
 // This function gets called at build time on server-side.
