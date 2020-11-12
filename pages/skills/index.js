@@ -81,16 +81,11 @@ export default function Skills({ skills }) {
 // It won't be called on client-side, so you can even do
 // direct database queries. See the "Technical details" section.
 export async function getStaticProps() {
-	// Call an external API endpoint to get posts.
-	// You can use any data fetching library
-	const skills = await fetch('http://localhost:3000/api/skills');
-	// By returning { props: posts }, the Blog component
-	// will receive `posts` as a prop at build time
+	const data = require('../../data/skills.json');
 
-	const skillsJSON = await skills.json();
 	return {
 		props: {
-			skills: skillsJSON,
+			skills: data.skills,
 		},
 	};
 }

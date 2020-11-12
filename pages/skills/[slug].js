@@ -10,7 +10,7 @@ function Skill({ title, content, image, categories }) {
 					<p>{content}</p>
 					<div style={{ color: '#33F' }}>
 						[
-						{categories.map(
+						{categories?.map(
 							(category, i) =>
 								`${category}${i < categories.length - 1 ? ' - ' : ''}`
 						)}
@@ -34,16 +34,10 @@ function Skill({ title, content, image, categories }) {
 }
 
 export async function getStaticPaths() {
-	const skills = await fetch('http://localhost:3000/api/skills');
-	// By returning { props: posts }, the Blog component
-	// will receive `posts` as a prop at build time
-
-	const skillsJSON = await skills.json();
-
-	const paths = skillsJSON.map((page) => {
+	const data = await require('../../data/skills.json');
+	const paths = data.skills.map((page) => {
 		return { params: { slug: page.slug } };
 	});
-
 	return {
 		paths,
 		fallback: true,
@@ -55,9 +49,10 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
 	// Call an external API endpoint to get posts.
 	// You can use any data fetching library
-	const skill = await fetch(`http://localhost:3000/api/skills/${params.slug}`);
-	const { title, content, image, categories } = await skill.json();
-	console.log(skill);
+	const data = require('../../data/skills.json');
+
+	const skill = data.skills.find((skill) => skill.slug === params.slug);
+	const { title, content, image, categories } = skill;
 	// By returning { props: posts }, the Blog component
 	// will receive `posts` as a prop at build time
 	return {

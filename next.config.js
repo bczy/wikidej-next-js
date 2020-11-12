@@ -9,7 +9,7 @@ module.exports = {
 	exportPathMap: async function () {
 		return {
 			'/': { page: '/' },
-			'/skills/': { page: '/skills/' },
+			'/skills': { page: '/skills' },
 			...skillPages,
 		};
 	},
